@@ -50,6 +50,9 @@ jobs:
                 threads: 4
           " > ~/.dbt/profiles.yml
 
+      - name: Print profiles.yml
+        run: cat ~/.dbt/profiles.yml
+
       - name: Run dbt deps
         run: dbt deps
 
