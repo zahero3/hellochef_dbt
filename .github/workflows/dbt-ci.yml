@@ -53,6 +53,13 @@ jobs:
       - name: Print profiles.yml
         run: cat ~/.dbt/profiles.yml
 
+      - name: Print debug info (non-sensitive)
+        run: |
+          echo "Host: ${{ env.DBT_HOST }}"
+          echo "Port: ${{ env.DBT_PORT }}"
+          echo "DB Name: ${{ env.DBT_DBNAME }}"
+          echo "Schema: ${{ env.DBT_SCHEMA }}"
+
       - name: Run dbt deps
         run: dbt deps
 
