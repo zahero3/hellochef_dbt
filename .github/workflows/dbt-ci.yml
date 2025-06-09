@@ -50,15 +50,15 @@ jobs:
                 threads: 4
           " > ~/.dbt/profiles.yml
 
-      - name: Print profiles.yml
-        run: cat ~/.dbt/profiles.yml
-
-      - name: Print debug info (non-sensitive)
+      - name: Check if DBT secrets are empty
         run: |
-          echo "Host: ${{ env.DBT_HOST }}"
-          echo "Port: ${{ env.DBT_PORT }}"
-          echo "DB Name: ${{ env.DBT_DBNAME }}"
-          echo "Schema: ${{ env.DBT_SCHEMA }}"
+          if [ -z "$DBT_USER" ]; then echo "DBT_USER is empty"; else echo "DBT_USER is set"; fi
+          if [ -z "$DBT_PASSWORD" ]; then echo "DBT_PASSWORD is empty"; else echo "DBT_PASSWORD is set"; fi
+          if [ -z "$DBT_HOST" ]; then echo "DBT_HOST is empty"; else echo "DBT_HOST is set"; fi
+          if [ -z "$DBT_PORT" ]; then echo "DBT_PORT is empty"; else echo "DBT_PORT is set"; fi
+          if [ -z "$DBT_DBNAME" ]; then echo "DBT_DBNAME is empty"; else echo "DBT_DBNAME is set"; fi
+          if [ -z "$DBT_SCHEMA" ]; then echo "DBT_SCHEMA is empty"; else echo "DBT_SCHEMA is set"; fi
+          if [ -z "$DBT_TARGET" ]; then echo "DBT_TARGET is empty"; else echo "DBT_TARGET is set"; fi
 
       - name: Run dbt deps
         run: dbt deps
