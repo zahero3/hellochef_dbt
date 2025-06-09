@@ -1,0 +1,55 @@
+
+version: 2
+
+sources:
+  - name: public
+    schema: public
+    tables:
+      - name: customers
+      - name: products
+      - name: orders
+
+models:
+  - name: stg_customers
+    description: "Stage table for cleaned customer data"
+    columns:
+      - name: customer_id
+        description: "Unique customer identifier"
+        tests:
+          - not_null
+          - unique
+      - name: email
+        tests: 
+          - valid_email
+
+  - name: stg_orders
+    description: "Stage table for cleaned order data"
+    columns:
+      - name: order_id
+        description: "Unique order identifier"
+        tests:
+          - not_null
+          - unique
+
+  - name: stg_products
+    description: "Stage table for cleaned product data"
+    columns:
+      - name: product_id
+        description: "Unique product identifier"
+        tests:
+          - not_null
+          - unique
+      - name: price
+        tests:
+          - price_abv_60
+
+  - name: fct_sales
+    description: "Fact table for sales data"
+    columns:
+      - name: total_amount
+        description: "Total amount spend by customer"
+        tests:
+          - outlier_total_amount
+      - name: quantity
+        tests:
+          - quantity_range
