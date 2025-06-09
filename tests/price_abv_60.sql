@@ -1,2 +1,2 @@
 SELECT * FROM {{ ref('stg_products')}}
-WHERE price > 60
+WHERE price > 60 
