@@ -14,7 +14,7 @@ jobs:
       DBT_USER: ${{ secrets.DBT_USER }}
       DBT_PASSWORD: ${{ secrets.DBT_PASSWORD }}
       DBT_HOST: ${{ secrets.DBT_HOST }}
-      DBT_PORT: "5432"
+      DBT_PORT: 5432
       DBT_DBNAME: ${{ secrets.DBT_DBNAME }}
       DBT_SCHEMA: ${{ secrets.DBT_SCHEMA }}
       DBT_TARGET: dev
