@@ -51,15 +51,16 @@ jobs:
           " > ~/.dbt/profiles.yml
 
       - name: Check if DBT secrets are empty
+        shell: pwsh
         run: |
-          if [ -z "$DBT_USER" ]; then echo "DBT_USER is empty"; else echo "DBT_USER is set"; fi
-          if [ -z "$DBT_PASSWORD" ]; then echo "DBT_PASSWORD is empty"; else echo "DBT_PASSWORD is set"; fi
-          if [ -z "$DBT_HOST" ]; then echo "DBT_HOST is empty"; else echo "DBT_HOST is set"; fi
-          if [ -z "$DBT_PORT" ]; then echo "DBT_PORT is empty"; else echo "DBT_PORT is set"; fi
-          if [ -z "$DBT_DBNAME" ]; then echo "DBT_DBNAME is empty"; else echo "DBT_DBNAME is set"; fi
-          if [ -z "$DBT_SCHEMA" ]; then echo "DBT_SCHEMA is empty"; else echo "DBT_SCHEMA is set"; fi
-          if [ -z "$DBT_TARGET" ]; then echo "DBT_TARGET is empty"; else echo "DBT_TARGET is set"; fi
-
+          if (-not $env:DBT_USER) { echo "DBT_USER is empty" } else { echo "DBT_USER is set" }
+          if (-not $env:DBT_PASSWORD) { echo "DBT_PASSWORD is empty" } else { echo "DBT_PASSWORD is set" }
+          if (-not $env:DBT_HOST) { echo "DBT_HOST is empty" } else { echo "DBT_HOST is set" }
+          if (-not $env:DBT_PORT) { echo "DBT_PORT is empty" } else { echo "DBT_PORT is set" }
+          if (-not $env:DBT_DBNAME) { echo "DBT_DBNAME is empty" } else { echo "DBT_DBNAME is set" }
+          if (-not $env:DBT_SCHEMA) { echo "DBT_SCHEMA is empty" } else { echo "DBT_SCHEMA is set" }
+          if (-not $env:DBT_TARGET) { echo "DBT_TARGET is empty" } else { echo "DBT_TARGET is set" }
+          
       - name: Run dbt deps
         run: dbt deps
 
