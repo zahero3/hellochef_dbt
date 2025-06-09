@@ -1,0 +1,57 @@
+name: dbt CI
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  dbt-build:
+    runs-on: ubuntu-latest
+
+    env:
+      DBT_USER: ${{ secrets.DBT_USER }}
+      DBT_PASSWORD: ${{ secrets.DBT_PASSWORD }}
+      DBT_HOST: ${{ secrets.DBT_HOST }}
+      DBT_PORT: "5432"
+      DBT_DBNAME: ${{ secrets.DBT_DBNAME }}
+      DBT_SCHEMA: ${{ secrets.DBT_SCHEMA }}
+      DBT_TARGET: dev
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: 3.10
+
+      - name: Install dbt
+        run: |
+          pip install dbt-postgres
+
+      - name: Create profiles.yml
+        run: |
+          mkdir -p ~/.dbt
+          echo "
+          hellochef_dbt:
+            target: dev
+            outputs:
+              dev:
+                type: postgres
+                host: $DBT_HOST
+                user: $DBT_USER
+                password: $DBT_PASSWORD
+                port: 5432
+                dbname: $DBT_DBNAME
+                schema: $DBT_SCHEMA
+                threads: 4
+          " > ~/.dbt/profiles.yml
+
+      - name: Run dbt deps
+        run: dbt deps
+
+      - name: Run dbt build
+        run: dbt build
