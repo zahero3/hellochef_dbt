@@ -43,7 +43,7 @@ jobs:
                 type: postgres
                 host: $DBT_HOST
                 user: $DBT_USER
-                password: $DBT_PASSWORD
+                pass: $DBT_PASSWORD
                 port: 5432
                 dbname: $DBT_DBNAME
                 schema: $DBT_SCHEMA
