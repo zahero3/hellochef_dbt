@@ -7,11 +7,13 @@ models:
       - name: customer_id
         tests:
           - not_null
+
       - name: total_orders
           - not_null
           - dbt_utils.expression_is_true:
-            expression: " <> 0"
+              expression: " <> 0"
+
       - name: total_sales
           - not_null
           - dbt_utils.expression_is_true:
-            expression: " <> 0"
+              expression: " <> 0"
