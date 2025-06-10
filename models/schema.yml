@@ -49,4 +49,4 @@ models:
           - outlier_total_amount
       - name: quantity
         tests:
-          - quantity_range
+          - quantity_range 
