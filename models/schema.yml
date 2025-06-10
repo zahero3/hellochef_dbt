@@ -55,3 +55,8 @@ models:
           - not_null
           - dbt_utils.expression_is_true:
               expression: " /total_amount <> 0"
+      - name: net_revenue
+        tests:
+          - not_null
+          - dbt_utils.expression_is_true:
+              expression: " > 0 OR net_revenue = 0.99" 
