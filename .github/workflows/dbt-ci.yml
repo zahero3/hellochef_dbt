@@ -14,7 +14,7 @@ jobs:
       DBT_USER: ${{ secrets.DBT_USER }}
       DBT_PASSWORD: ${{ secrets.DBT_PASSWORD }}
       DBT_HOST: ${{ secrets.DBT_HOST }}
-      DBT_PORT: "5432"
+      DBT_PORT: 5432
       DBT_DBNAME: ${{ secrets.DBT_DBNAME }}
       DBT_SCHEMA: ${{ secrets.DBT_SCHEMA }}
       DBT_TARGET: dev
@@ -29,42 +29,26 @@ jobs:
           python-version: 3.10
 
       - name: Install dbt
-        run: pip install dbt-postgres
+        run: |
+          pip install dbt-postgres
 
       - name: Create profiles.yml
-        shell: pwsh
         run: |
-          $content = @"
-hellochef_dbt:
-  target: dev
-  outputs:
-    dev:
-      type: postgres
-      host: '$env:DBT_HOST'
-      user: '$env:DBT_USER'
-      password: '$env:DBT_PASSWORD'
-      port: 5432
-      dbname: '$env:DBT_DBNAME'
-      schema: '$env:DBT_SCHEMA'
-      threads: 4
-"@
-  New-Item -ItemType Directory -Force -Path $env:USERPROFILE\.dbt
-  $content | Out-File -FilePath $env:USERPROFILE\.dbt\profiles.yml -Encoding utf8
-
-      - name: Print profiles.yml (debug)
-        shell: pwsh
-        run: Get-Content $env:USERPROFILE\.dbt\profiles.yml
-
-      - name: Check DBT secrets
-        shell: pwsh
-        run: |
-          "DBT_USER: $env:DBT_USER"
-          "DBT_PASSWORD: $env:DBT_PASSWORD"
-          "DBT_HOST: $env:DBT_HOST"
-          "DBT_PORT: $env:DBT_PORT"
-          "DBT_DBNAME: $env:DBT_DBNAME"
-          "DBT_SCHEMA: $env:DBT_SCHEMA"
-          "DBT_TARGET: $env:DBT_TARGET"
+          mkdir -p ~/.dbt
+          echo "
+          hellochef_dbt:
+            target: dev
+            outputs:
+              dev:
+                type: postgres
+                host: ${DBT_HOST}
+                user: ${DBT_USER}
+                password: ${DBT_PASSWORD}
+                port: 5432
+                dbname: ${DBT_DBNAME}
+                schema: ${DBT_SCHEMA}
+                threads: 4
+          " > ~/.dbt/profiles.yml
 
       - name: Run dbt deps
         run: dbt deps
