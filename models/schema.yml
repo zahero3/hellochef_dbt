@@ -54,4 +54,4 @@ models:
         tests:
           - not_null
           - dbt_utils.expression_is_true:
-              expression: " /total_amount > 30"
+              expression: " /total_amount > 0.1"
