@@ -8,7 +8,7 @@ on:
 
 jobs:
   dbt-build:
-    runs-on: windows-latest
+    runs-on: mac-latest
 
     env:
       DBT_USER: ${{ secrets.DBT_USER }}
