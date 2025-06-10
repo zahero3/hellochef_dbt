@@ -1,0 +1,21 @@
+version: 2
+
+models:
+  - name: prod_sales_summary
+    description: "Production-only model for summarizing customer sales"
+    columns:
+      - name: customer_id
+        tests:
+          - not_null
+
+      - name: total_orders
+        tests:
+          - not_null
+          - dbt_utils.expression_is_true:
+              expression: " <> 0"
+
+      - name: total_sales
+        tests:
+          - not_null
+          - dbt_utils.expression_is_true:
+              expression: " <> 0"
