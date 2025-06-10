@@ -8,7 +8,7 @@ on:
 
 jobs:
   dbt-build:
-    runs-on: macos-latest
+    runs-on: ubuntu-latest
 
     env:
       DBT_USER: ${{ secrets.DBT_USER }}
@@ -55,3 +55,6 @@ jobs:
 
       - name: Run dbt build
         run: dbt build
+
+      - name: Generate docs
+        run: dbt docs generate
