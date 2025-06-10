@@ -54,4 +54,4 @@ models:
         tests:
           - not_null
           - dbt_utils.expression_is_true:
-              expression: "discount/total_amount > 30"
+              expression: " /total_amount > 30"
