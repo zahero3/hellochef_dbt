@@ -50,3 +50,8 @@ models:
       - name: quantity
         tests:
           - quantity_range 
+      - name: discount
+        tests:
+          - not_null
+          - dbt_utils.expression_is_true:
+              expression: " /total_amount <> 0"
