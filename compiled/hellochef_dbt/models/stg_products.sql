@@ -1,0 +1,1 @@
+SELECT * FROM "hellochef_practice"."public"."products"
