@@ -54,7 +54,7 @@ jobs:
         run: dbt deps
 
       - name: Run dbt build
-        run: dbt build
+        run: dbt build --exclude tag:prod_only
 
       - name: Generate docs
         run: dbt docs generate
