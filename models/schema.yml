@@ -59,4 +59,4 @@ models:
         tests:
           - not_null
           - dbt_utils.expression_is_true:
-              expression: " < 0 OR  = 0"
+              expression: " < 0 OR  = 0" 
