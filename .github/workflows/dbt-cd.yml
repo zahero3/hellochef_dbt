@@ -1,0 +1,59 @@
+name: dbt CD
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  dbt-deploy-to-prod:
+    runs-on: ubuntu-latest
+
+    env:
+      DBT_USER: ${{ secrets.PROD_DBT_USER }}
+      DBT_PASSWORD: ${{ secrets.PROD_DBT_PASSWORD }}
+      DBT_HOST: ${{ secrets.PROD_DBT_HOST }}
+      DBT_PORT: 5432
+      DBT_DBNAME: ${{ secrets.PROD_DBT_DBNAME }}
+      DBT_SCHEMA: "public"
+      DBT_TARGET: prod
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: 3.12
+
+      - name: Install dbt
+        run: |
+          pip install dbt-postgres
+
+      - name: Create profiles.yml for prod
+        run: |
+          mkdir -p ~/.dbt
+          echo "
+          hellochef_dbt:
+            target: prod
+            outputs:
+              prod:
+                type: postgres
+                host: \"$DBT_HOST\"
+                user: \"$DBT_USER\"
+                password: \"$DBT_PASSWORD\"
+                port: 5432
+                dbname: \"$DBT_DBNAME\"
+                schema: \"$DBT_SCHEMA\"
+                threads: 4
+          " > ~/.dbt/profiles.yml
+
+      - name: Run dbt deps
+        run: dbt deps
+
+      - name: Run dbt build
+        run: dbt build
+
+      - name: Generate docs
+        run: dbt docs generate
