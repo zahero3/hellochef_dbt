@@ -82,7 +82,7 @@ models:
           - accepted_values:
               values: [0,1]
 
-  - name: fct_cac:
+  - name: fct_cac
     description: "CAC matric"
     columns:
       - name: cac
