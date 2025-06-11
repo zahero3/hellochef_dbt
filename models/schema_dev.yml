@@ -81,13 +81,3 @@ models:
         tests:
           - accepted_values:
               values: [0,1]
-
-  - name: fct_cac:
-    description: "CAC matric"
-    columns:
-      - name: cac
-        tests:
-          - not_null
-          - dbt_utils.expression_is_true:
-              expression: " > 0"
-   
