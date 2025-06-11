@@ -1,7 +1,7 @@
 
 WITH last_orders AS (
 	SELECT c.customer_id, c.signup_date, max(o.order_date) AS last_order_date
-	FROM {{ REF('stg_customers') }} c INNER JOIN {{ REF('stg_orders') }} o 
+	FROM {{ ref('stg_customers') }} c INNER JOIN {{ ref('stg_orders') }} o 
 	ON c.customer_id = o.customer_id
 	GROUP BY c.customer_id,c.signup_date  ),
 	
