@@ -3,8 +3,8 @@
 
 {{ config(
     materialized = 'table',
-    tags = ['prod_only']
-) }}
+    tags = ['prod_only']) 
+}}
 
 
 SELECT

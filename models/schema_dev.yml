@@ -8,6 +8,7 @@ sources:
       - name: customers
       - name: products
       - name: orders
+      - name: marketing_spend
 
 models:
   - name: stg_customers
@@ -40,6 +41,14 @@ models:
           - not_null
           - unique
 
+  - name: stg_marketing_spend
+    description: "Stage table for marketing spend"
+    columns:
+      - name: campaign_id
+        tests:
+          - not_null
+          - unique
+
   - name: fct_sales
     description: "Fact table for sales data"
     columns:
@@ -60,3 +69,24 @@ models:
           - not_null
           - dbt_utils.expression_is_true:
               expression: " > 0 OR net_revenue = 0.99" 
+
+  - name: fct_churn
+    description: "Churn flag"
+    columns:
+      - name: customer_id
+        tests:
+          - not_null
+          - unique
+      - name: is_churned
+        tests:
+          - accepted_values:
+              values: [0,1]
+
+  - name: fct_cac
+    description: "CAC matric"
+    columns:
+      - name: cac
+        tests:
+          - not_null
+          - dbt_utils.expression_is_true:
+              expression: " > 0"
